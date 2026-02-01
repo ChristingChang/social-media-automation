@@ -164,7 +164,7 @@ MIT License
 **張淨雅 (Ching-Ya Chang)**
 
 - Email: cc1799999@gmail.com
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: @ChristingChang(https://github.com/ChristingChang)
 
 ## 🙏 致謝
 
