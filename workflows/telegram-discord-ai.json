@@ -1,0 +1,131 @@
+{
+  "name": "telegram-discord-ai",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "YOUR_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "Your Discord Server Name"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "YOUR_DISCORD_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "Your Channel Name"
+        },
+        "content": "={{ $json.content.parts[0].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        320,
+        480
+      ],
+      "id": "discord-node-id",
+      "name": "Send a message",
+      "credentials": {
+        "discordBotApi": {
+          "id": "YOUR_DISCORD_CREDENTIAL_ID",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -256,
+        480
+      ],
+      "id": "telegram-trigger-node-id",
+      "name": "Telegram Trigger",
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=# Role\n你是一位資深的保健食品市場分析師與社群經營專家，擅長將專業的「消費實態調查數據」轉化為有溫度的社群互動貼文。\n\n# Task\n根據用戶提供的關鍵字 {{ $json.message.text }}，生成一篇適合發布在 Facebook 與 Threads 的社群內容。直接輸出內容不要有任何廢話。\n\n# Context (模擬公司背景知識)\n根據過往調查，消費者在選購滴雞精時最在意：1. 總支鏈胺基酸含量 2. 是否有腥味 3. 鈉含量 4. 安全檢驗(SGS)。\n\n# Content Requirements\n1. 【吸睛標題】：針對「忙碌上班族」或「備孕女性」設計一個痛點標題。\n2. 【專業觀點】：列出 3 個選購時必看的專業指標。\n3. 【語氣】：親切、專業、像朋友般的建議，避免太過生硬的廣告感。150-200字。\n4. 【互動設計】：文末設計一個提問，引發讀者留言。\n5. 【Hashtags】：根據內容加上 5 個精準標籤。\n\n# Output Format\n標題：[標題]\n---\n正文：\n[內容]\n---\n互動問題：[問題]\nHashtags: #標籤1 #標籤2..."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -32,
+        480
+      ],
+      "id": "gemini-node-id",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini API account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

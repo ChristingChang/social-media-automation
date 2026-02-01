@@ -1,0 +1,31 @@
+# n8n
+*.n8n
+.n8n/
+node_modules/
+
+# API Keys & Secrets
+.env
+.env.local
+secrets/
+credentials/
+*_secret*
+*_token*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
